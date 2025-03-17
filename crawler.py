@@ -12,7 +12,7 @@ def get_stock_data(stock_code):
         dict: Dicionário com os valores extraídos: 'eps', 'vpa' e 'current_price'.
               Retorna None se ocorrer algum erro ou se os seletores não forem encontrados.
     """
-    url = f\"https://statusinvest.com.br/acoes/{stock_code.lower()}\"
+    url = f"https://statusinvest.com.br/acoes/{stock_code.lower()}"
     
     # Define um User-Agent para evitar bloqueio por parte do site
     headers = {
