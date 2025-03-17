@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Análise de Ações com Graham Number</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 30px; }
+        form { margin-bottom: 20px; }
+        label { display: inline-block; width: 200px; }
+        input { padding: 5px; width: 200px; }
+        button { padding: 10px 20px; margin-top: 10px; }
+        .error { color: red; }
+        .result { background-color: #f2f2f2; padding: 15px; border-radius: 5px; }
+    </style>
+</head>
+<body>
+    <h1>Análise de Ações</h1>
+    <form method="POST">
+        <div>
+            <label for="stock_code">Código da Ação (ex.: PETR4):</label>
+            <input type="text" name="stock_code" id="stock_code" required>
+        </div>
+        <br>
+        <button type="submit">Analisar</button>
+    </form>
+
+    {% if error %}
+        <p class="error">{{ error }}</p>
+    {% endif %}
+
+    {% if result %}
+        <div class="result">
+            <h2>Resultado</h2>
+            <p><strong>EPS (LPA):</strong> {{ result.eps }}</p>
+            <p><strong>VPA:</strong> {{ result.vpa }}</p>
+            <p><strong>Preço Atual:</strong> {{ result.current_price }}</p>
+            <p><strong>Número de Graham:</strong> {{ result.graham_number }}</p>
+            <p>A ação está <strong>{{ result.status }}</strong>.</p>
+            <p><em>Fonte dos dados: {{ data_source }}</em></p>
+        </div>
+    {% endif %}
+</body>
+</html>
