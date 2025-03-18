@@ -1,5 +1,5 @@
 Flask>=2.0
 gunicorn>=20.0
-selenium>=4.0
 requests>=2.25
 beautifulsoup4>=4.9
+selenium>=4.0
