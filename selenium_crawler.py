@@ -1,56 +1,52 @@
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
+from selenium.webdriver.chrome.service import Service  # Importa Service
 import time
 from bs4 import BeautifulSoup
 
 def get_stock_data_selenium(stock_code):
-    # Configura o Selenium para rodar sem interface (headless)
+    # Configurações do Chrome em modo headless
     options = Options()
     options.add_argument("--headless")
     options.add_argument("--no-sandbox")
     options.add_argument("--disable-dev-shm-usage")
 
-    # Em muitos casos, o Selenium localiza o chromium e o chromedriver
-    # sozinho. Se precisar, informe explicitamente:
-    options.binary_location = "/usr/bin/chromium"
-    
-    # O parâmetro executable_path pode ser necessário para o ChromeDriver:
-    driver = webdriver.Chrome(options=options, executable_path="/usr/bin/chromedriver")
+    # Em vez de usar executable_path, cria-se um Service
+    service = Service("/usr/bin/chromedriver")
+    driver = webdriver.Chrome(service=service, options=options)
 
     try:
         url = f"https://statusinvest.com.br/acoes/{stock_code.lower()}"
         driver.get(url)
+        time.sleep(5)  # Aguarda o JavaScript carregar
 
-        # Aguarde alguns segundos para o JS carregar (ou use WebDriverWait)
-        time.sleep(5)
-
-        # Captura o HTML final
         html = driver.page_source
         soup = BeautifulSoup(html, "html.parser")
-
-        # Ajuste os seletores conforme o HTML renderizado
-        # Estes são exemplos ilustrativos:
+        
+        # Ajuste estes seletores conforme o HTML renderizado
         eps_element = soup.find("span", {"class": "indicador-lpa"})
         vpa_element = soup.find("span", {"class": "indicador-vpa"})
         price_element = soup.find("span", {"class": "price-value"})
 
-        if not eps_element or not vpa_element or not price_element:
+        if not (eps_element and vpa_element and price_element):
             print("Erro: Não foi possível encontrar EPS, VPA ou Preço.")
             return None
-
+        
         eps = float(eps_element.text.strip().replace(",", "."))
         vpa = float(vpa_element.text.strip().replace(",", "."))
         current_price = float(price_element.text.strip().replace(",", "."))
 
-        return {
-            "eps": eps,
-            "vpa": vpa,
-            "current_price": current_price
-        }
+        return {"eps": eps, "vpa": vpa, "current_price": current_price}
+
     finally:
         driver.quit()
 
-# Teste local (opcional)
+# Teste isolado
 if __name__ == "__main__":
-    data = get_stock_data_selenium("mypk3")
-    print("Retorno:", data)
+    ticker = "mypk3"  # Altere para um ticker de teste conhecido
+    data = get_stock_data_selenium(ticker)
+    if data:
+        print("Dados extraídos via Selenium:")
+        print(data)
+    else:
+        print("Não foi possível obter os dados via Selenium.")
