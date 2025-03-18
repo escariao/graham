@@ -1,6 +1,7 @@
 import math
 from flask import Flask, render_template, request
-from crawler import get_stock_data
+# Troque ou adicione o import para a função Selenium
+from selenium_crawler import get_stock_data_selenium as get_stock_data
 
 app = Flask(__name__)
 
@@ -12,7 +13,7 @@ def index():
     result = None
     error = None
     data_source = None
-    
+
     if request.method == "POST":
         stock_code = request.form.get("stock_code", "").strip()
         if not stock_code:
@@ -26,14 +27,14 @@ def index():
                 vpa = stock_data["vpa"]
                 current_price = stock_data["current_price"]
                 graham_number = calculate_graham_number(eps, vpa)
-                
+
                 if current_price < graham_number:
                     status = "subvalorizada"
                 elif current_price > graham_number:
                     status = "sobrevalorizada"
                 else:
                     status = "avaliada corretamente"
-                    
+
                 result = {
                     "graham_number": round(graham_number, 2),
                     "current_price": current_price,
@@ -41,8 +42,8 @@ def index():
                     "eps": eps,
                     "vpa": vpa
                 }
-                data_source = "StatusInvest (crawler)"
-    
+                data_source = "StatusInvest (Selenium)"
+
     return render_template("index.html", result=result, error=error, data_source=data_source)
 
 if __name__ == "__main__":
