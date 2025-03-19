@@ -10,7 +10,7 @@ def get_stock_data_selenium(stock_code):
     options.add_argument("--no-sandbox")
     options.add_argument("--disable-dev-shm-usage")
 
-    # Atualize os caminhos para os binários instalados via apt.txt
+    # Configure os caminhos conforme a saída do debug:
     options.binary_location = "/app/.apt/usr/bin/chromium-browser"
     service = Service("/app/.apt/usr/bin/chromedriver")
 
@@ -19,7 +19,7 @@ def get_stock_data_selenium(stock_code):
     try:
         url = f"https://statusinvest.com.br/acoes/{stock_code.lower()}"
         driver.get(url)
-        time.sleep(5)  # aguarda o JavaScript carregar
+        time.sleep(5)  # Aguarda o JavaScript carregar
 
         html = driver.page_source
         soup = BeautifulSoup(html, "html.parser")
