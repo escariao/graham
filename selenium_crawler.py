@@ -1,19 +1,25 @@
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.chrome.service import Service
+from detect_paths import detect_browser_paths  # Importe o script de detecção
 import time
 from bs4 import BeautifulSoup
 
 def get_stock_data_selenium(stock_code):
+    # Detecta os caminhos dos binários
+    paths = detect_browser_paths()
+    # Se não encontrar, assume o caminho padrão para o Render
+    chromium_path = paths.get("chromium") or "/app/.apt/usr/bin/chromium-browser"
+    chromedriver_path = paths.get("chromedriver") or "/app/.apt/usr/bin/chromedriver"
+
     options = Options()
     options.add_argument("--headless")
     options.add_argument("--no-sandbox")
     options.add_argument("--disable-dev-shm-usage")
+    # Define a localização do binário do Chromium
+    options.binary_location = chromium_path
 
-    # Configure os caminhos conforme a saída do debug:
-    options.binary_location = "/app/.apt/usr/bin/chromium-browser"
-    service = Service("/app/.apt/usr/bin/chromedriver")
-
+    service = Service(chromedriver_path)
     driver = webdriver.Chrome(service=service, options=options)
 
     try:
@@ -44,7 +50,7 @@ def get_stock_data_selenium(stock_code):
 
 # Teste isolado
 if __name__ == "__main__":
-    ticker = "mypk3"  # Altere para um ticker de teste conhecido
+    ticker = "mypk3"  # Altere conforme necessário
     data = get_stock_data_selenium(ticker)
     if data:
         print("Dados extraídos via Selenium:")
