@@ -1,29 +1,30 @@
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
-from selenium.webdriver.chrome.service import Service  # Importa Service
+from selenium.webdriver.chrome.service import Service
 import time
 from bs4 import BeautifulSoup
 
 def get_stock_data_selenium(stock_code):
-    # Configurações do Chrome em modo headless
     options = Options()
     options.add_argument("--headless")
     options.add_argument("--no-sandbox")
     options.add_argument("--disable-dev-shm-usage")
 
-    # Em vez de usar executable_path, cria-se um Service
-    service = Service("/usr/bin/chromedriver")
+    # Atualize os caminhos para os binários instalados via apt.txt
+    options.binary_location = "/app/.apt/usr/bin/chromium-browser"
+    service = Service("/app/.apt/usr/bin/chromedriver")
+
     driver = webdriver.Chrome(service=service, options=options)
 
     try:
         url = f"https://statusinvest.com.br/acoes/{stock_code.lower()}"
         driver.get(url)
-        time.sleep(5)  # Aguarda o JavaScript carregar
+        time.sleep(5)  # aguarda o JavaScript carregar
 
         html = driver.page_source
         soup = BeautifulSoup(html, "html.parser")
         
-        # Ajuste estes seletores conforme o HTML renderizado
+        # Ajuste os seletores conforme o HTML renderizado
         eps_element = soup.find("span", {"class": "indicador-lpa"})
         vpa_element = soup.find("span", {"class": "indicador-vpa"})
         price_element = soup.find("span", {"class": "price-value"})
