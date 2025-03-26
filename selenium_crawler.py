@@ -11,7 +11,16 @@ def get_stock_data_selenium(stock_code):
     # Detecta os caminhos dos binários
     paths = detect_browser_paths()
 
-    # Fallbacks específicos para o Render
+    # Debug extra para logs no Render
+    print("[CHROMIUM DETECTADO]:", paths.get("chromium"))
+    print("[CHROMEDRIVER DETECTADO]:", paths.get("chromedriver"))
+    print("[EXISTE CHROMIUM?]", os.path.isfile(paths.get("chromium") or ""))
+    print("[EXISTE CHROMEDRIVER?]", os.path.isfile(paths.get("chromedriver") or ""))
+    print("[VERIFICANDO FALLBACKS]")
+    print("Existe /app/.apt/usr/bin/chromedriver ?", os.path.isfile("/app/.apt/usr/bin/chromedriver"))
+    print("Existe /usr/bin/chromedriver ?", os.path.isfile("/usr/bin/chromedriver"))
+
+    # Fallbacks
     fallback_chromium = "/app/.apt/usr/bin/chromium"
     fallback_chromedriver = "/app/.apt/usr/bin/chromedriver"
 
