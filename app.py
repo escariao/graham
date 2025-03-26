@@ -1,7 +1,8 @@
 import math
 import subprocess
 from flask import Flask, render_template, request
-from selenium_crawler import get_stock_data_selenium as get_stock_data
+from requests_crawler import get_stock_data
+
 
 def debug_paths():
     """
