@@ -1,5 +1,4 @@
-# Código limpo e pronto para uso em produção
-clean_final_code = """
+
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.chrome.service import Service
@@ -61,4 +60,3 @@ if __name__ == "__main__":
         print(data)
     else:
         print("Não foi possível obter os dados via Selenium.")
-"""
