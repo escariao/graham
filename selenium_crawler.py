@@ -62,9 +62,3 @@ if __name__ == "__main__":
     else:
         print("Não foi possível obter os dados via Selenium.")
 """
-
-# Salvar versão limpa do arquivo
-clean_final_path = Path("/mnt/data/selenium_crawler.py")
-clean_final_path.write_text(clean_final_code)
-
-clean_final_path.name  # Confirmar nome
