@@ -3,7 +3,6 @@ import subprocess
 from flask import Flask, render_template, request
 from requests_crawler import get_stock_data
 
-
 def debug_paths():
     """
     Executa o script debug_paths.py e imprime a saída nos logs.
