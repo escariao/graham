@@ -57,7 +57,7 @@ def index():
                     "eps": eps,
                     "vpa": vpa
                 }
-                data_source = "StatusInvest (Selenium)"
+                data_source = "StatusInvest (requests)"
 
     return render_template("index.html", result=result, error=error, data_source=data_source)
 
