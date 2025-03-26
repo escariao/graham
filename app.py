@@ -3,22 +3,9 @@ import subprocess
 from flask import Flask, render_template, request
 from requests_crawler import get_stock_data
 
-def debug_paths():
-    """
-    Executa o script debug_paths.py e imprime a saída nos logs.
-    Esse script deve listar os caminhos dos binários (chromium, chromedriver).
-    """
-    try:
-        output = subprocess.check_output("python debug_paths.py", shell=True).decode().strip()
-        print("[DEBUG PATHS OUTPUT]")
-        print(output)
-    except Exception as e:
-        print("[DEBUG PATHS ERROR]", e)
-
 app = Flask(__name__)
 
 # Chamada de debug: remova essa linha após confirmar os caminhos no ambiente do Render.
-debug_paths()
 
 def calculate_graham_number(eps, vpa):
     return math.sqrt(22.5 * eps * vpa)
