@@ -1,22 +1,27 @@
+
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.chrome.service import Service
 from detect_paths import detect_browser_paths  # Importe o script de detecção
+import os
 import time
 from bs4 import BeautifulSoup
 
 def get_stock_data_selenium(stock_code):
     # Detecta os caminhos dos binários
     paths = detect_browser_paths()
-    # Se não encontrar, assume o caminho padrão para o Render
-    chromium_path = paths.get("chromium") or "/app/.apt/usr/bin/chromium-browser"
-    chromedriver_path = paths.get("chromedriver") or "/app/.apt/usr/bin/chromedriver"
+
+    # Caminhos padrões caso a detecção falhe ou o arquivo não exista
+    fallback_chromium = "/usr/bin/chromium"
+    fallback_chromedriver = "/usr/bin/chromedriver"
+
+    chromium_path = paths.get("chromium") if paths.get("chromium") and os.path.isfile(paths["chromium"]) else fallback_chromium
+    chromedriver_path = paths.get("chromedriver") if paths.get("chromedriver") and os.path.isfile(paths["chromedriver"]) else fallback_chromedriver
 
     options = Options()
     options.add_argument("--headless")
     options.add_argument("--no-sandbox")
     options.add_argument("--disable-dev-shm-usage")
-    # Define a localização do binário do Chromium
     options.binary_location = chromium_path
 
     service = Service(chromedriver_path)
@@ -50,7 +55,7 @@ def get_stock_data_selenium(stock_code):
 
 # Teste isolado
 if __name__ == "__main__":
-    ticker = "mypk3"  # Altere conforme necessário
+    ticker = "mypk3"
     data = get_stock_data_selenium(ticker)
     if data:
         print("Dados extraídos via Selenium:")
