@@ -1,27 +1,27 @@
-# Imagem base com Python
 FROM python:3.11-slim
 
-# Instala dependências do sistema
+# Instalar dependências de sistema
 RUN apt-get update && \
-    apt-get install -y chromium chromium-driver && \
+    apt-get install -y wget gnupg2 ca-certificates fonts-liberation \
+    chromium chromium-driver && \
     apt-get clean && rm -rf /var/lib/apt/lists/*
 
-# Define variáveis de ambiente do Chrome
-ENV CHROMIUM_BIN=/usr/bin/chromium
-ENV CHROMEDRIVER_BIN=/usr/bin/chromedriver
+# Setar variáveis de ambiente (opcional mas ajuda)
+ENV CHROME_BIN=/usr/bin/chromium
+ENV CHROMEDRIVER_PATH=/usr/bin/chromedriver
 
-# Define diretório da aplicação
+# Diretório do app
 WORKDIR /app
 
-# Copia arquivos do projeto
+# Copiar código para dentro do container
 COPY . /app
 
-# Instala dependências Python
+# Instalar dependências Python
 RUN pip install --upgrade pip && \
     pip install -r requirements.txt
 
-# Expõe a porta
+# Expor porta que o gunicorn vai escutar
 EXPOSE 10000
 
-# Comando para rodar a app com gunicorn
+# Rodar app com gunicorn
 CMD ["gunicorn", "app:app", "--bind", "0.0.0.0:10000"]
