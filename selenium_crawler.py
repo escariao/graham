@@ -1,5 +1,5 @@
-# Código final corrigido com fallback para os caminhos específicos do Render
-final_code = """
+# Código limpo e pronto para uso em produção
+clean_final_code = """
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.chrome.service import Service
@@ -63,9 +63,8 @@ if __name__ == "__main__":
         print("Não foi possível obter os dados via Selenium.")
 """
 
-# Salvar novo arquivo corrigido
-final_path = Path("/mnt/data/selenium_crawler.py")
-final_path.write_text(final_code)
+# Salvar versão limpa do arquivo
+clean_final_path = Path("/mnt/data/selenium_crawler.py")
+clean_final_path.write_text(clean_final_code)
 
-final_path.name  # Nome do arquivo final
-
+clean_final_path.name  # Confirmar nome
