@@ -1,4 +1,3 @@
-
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.chrome.service import Service
@@ -8,21 +7,19 @@ import time
 from bs4 import BeautifulSoup
 
 def get_stock_data_selenium(stock_code):
-    # Detecta os caminhos dos binários
     paths = detect_browser_paths()
 
-    # Debug extra para logs no Render
+    # Caminhos válidos para imagem com Chrome/Chromedriver pré-instalados
+    fallback_chromium = "/usr/bin/chromium"
+    fallback_chromedriver = "/usr/bin/chromedriver"
+
     print("[CHROMIUM DETECTADO]:", paths.get("chromium"))
     print("[CHROMEDRIVER DETECTADO]:", paths.get("chromedriver"))
     print("[EXISTE CHROMIUM?]", os.path.isfile(paths.get("chromium") or ""))
     print("[EXISTE CHROMEDRIVER?]", os.path.isfile(paths.get("chromedriver") or ""))
     print("[VERIFICANDO FALLBACKS]")
-    print("Existe /app/.apt/usr/bin/chromedriver ?", os.path.isfile("/app/.apt/usr/bin/chromedriver"))
+    print("Existe /usr/bin/chromium ?", os.path.isfile("/usr/bin/chromium"))
     print("Existe /usr/bin/chromedriver ?", os.path.isfile("/usr/bin/chromedriver"))
-
-    # Fallbacks
-    fallback_chromium = "/app/.apt/usr/bin/chromium"
-    fallback_chromedriver = "/app/.apt/usr/bin/chromedriver"
 
     chromium_path = paths.get("chromium") if paths.get("chromium") and os.path.isfile(paths["chromium"]) else fallback_chromium
     chromedriver_path = paths.get("chromedriver") if paths.get("chromedriver") and os.path.isfile(paths["chromedriver"]) else fallback_chromedriver
