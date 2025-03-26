@@ -1,27 +1,18 @@
-FROM python:3.11-slim
+# Usamos imagem baseada no Debian que já tem o Chrome e o ChromeDriver
+FROM mcr.microsoft.com/playwright/python:v1.43.1-jammy
 
-# Instalar dependências de sistema
-RUN apt-get update && \
-    apt-get install -y wget gnupg2 ca-certificates fonts-liberation \
-    chromium chromium-driver && \
-    apt-get clean && rm -rf /var/lib/apt/lists/*
-
-# Setar variáveis de ambiente (opcional mas ajuda)
-ENV CHROME_BIN=/usr/bin/chromium
-ENV CHROMEDRIVER_PATH=/usr/bin/chromedriver
-
-# Diretório do app
+# Diretório da aplicação
 WORKDIR /app
 
-# Copiar código para dentro do container
+# Copia os arquivos para o container
 COPY . /app
 
-# Instalar dependências Python
+# Instala dependências do Python
 RUN pip install --upgrade pip && \
     pip install -r requirements.txt
 
-# Expor porta que o gunicorn vai escutar
+# Porta usada pelo gunicorn
 EXPOSE 10000
 
-# Rodar app com gunicorn
+# Comando para rodar a aplicação
 CMD ["gunicorn", "app:app", "--bind", "0.0.0.0:10000"]
