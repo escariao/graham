@@ -9,17 +9,17 @@ from bs4 import BeautifulSoup
 def get_stock_data_selenium(stock_code):
     paths = detect_browser_paths()
 
-    # Caminhos válidos para imagem com Chrome/Chromedriver pré-instalados
-    fallback_chromium = "/usr/bin/chromium"
-    fallback_chromedriver = "/usr/bin/chromedriver"
+    # Caminhos específicos para imagem Playwright (com Chrome embutido)
+    fallback_chromium = "/ms-playwright/chrome-linux/chrome"
+    fallback_chromedriver = "/ms-playwright/chrome-linux/chromedriver"
 
     print("[CHROMIUM DETECTADO]:", paths.get("chromium"))
     print("[CHROMEDRIVER DETECTADO]:", paths.get("chromedriver"))
     print("[EXISTE CHROMIUM?]", os.path.isfile(paths.get("chromium") or ""))
     print("[EXISTE CHROMEDRIVER?]", os.path.isfile(paths.get("chromedriver") or ""))
     print("[VERIFICANDO FALLBACKS]")
-    print("Existe /usr/bin/chromium ?", os.path.isfile("/usr/bin/chromium"))
-    print("Existe /usr/bin/chromedriver ?", os.path.isfile("/usr/bin/chromedriver"))
+    print("Existe fallback chrome?", os.path.isfile(fallback_chromium))
+    print("Existe fallback chromedriver?", os.path.isfile(fallback_chromedriver))
 
     chromium_path = paths.get("chromium") if paths.get("chromium") and os.path.isfile(paths["chromium"]) else fallback_chromium
     chromedriver_path = paths.get("chromedriver") if paths.get("chromedriver") and os.path.isfile(paths["chromedriver"]) else fallback_chromedriver
