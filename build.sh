@@ -1,5 +1,9 @@
 #!/usr/bin/env bash
 
-# Instala chromium e chromedriver explicitamente
+echo "[BUILD] Atualizando pacotes..."
 apt-get update
+
+echo "[BUILD] Instalando Chromium e ChromeDriver..."
 apt-get install -y chromium chromium-driver
+
+echo "[BUILD] Concluído com sucesso."
