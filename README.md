@@ -58,5 +58,5 @@ MIT — Sinta-se livre para usar e modificar.
 
 ✨ Créditos
 ----------
-Desenvolvido por Andrey Escarião
+Desenvolvido por Andrey Escarião  
 Online em https://graham-j01n.onrender.com
