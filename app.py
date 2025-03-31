@@ -1,24 +1,8 @@
 import math
-import subprocess
 from flask import Flask, render_template, request
-from selenium_crawler import get_stock_data_selenium as get_stock_data
-
-def debug_paths():
-    """
-    Executa o script debug_paths.py e imprime a saída nos logs.
-    Esse script deve listar os caminhos dos binários (chromium, chromedriver).
-    """
-    try:
-        output = subprocess.check_output("python debug_paths.py", shell=True).decode().strip()
-        print("[DEBUG PATHS OUTPUT]")
-        print(output)
-    except Exception as e:
-        print("[DEBUG PATHS ERROR]", e)
+from brapi_crawler import get_stock_data
 
 app = Flask(__name__)
-
-# Chamada de debug: remova essa linha após confirmar os caminhos no ambiente do Render.
-debug_paths()
 
 def calculate_graham_number(eps, vpa):
     return math.sqrt(22.5 * eps * vpa)
@@ -27,7 +11,7 @@ def calculate_graham_number(eps, vpa):
 def index():
     result = None
     error = None
-    data_source = None
+    data_source = "brapi.dev (via API)"
 
     if request.method == "POST":
         stock_code = request.form.get("stock_code", "").strip()
@@ -57,7 +41,6 @@ def index():
                     "eps": eps,
                     "vpa": vpa
                 }
-                data_source = "StatusInvest (Selenium)"
 
     return render_template("index.html", result=result, error=error, data_source=data_source)
 
