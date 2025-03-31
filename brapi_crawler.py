@@ -19,9 +19,12 @@ def get_stock_data(stock_code):
 
         result = data["results"][0]
 
-        # Correção: usando campos reais da API
         eps = result.get("earningsPerShare")
-        vpa = result.get("bookValue") or result.get("regularMarketBookValue")
+        vpa = (
+            result.get("bookValue") or
+            result.get("regularMarketBookValue") or
+            (float(result["priceEarnings"]) * float(eps) if result.get("priceEarnings") and eps else None)
+        )
         current_price = result.get("regularMarketPrice")
 
         if eps is None or vpa is None or current_price is None:
