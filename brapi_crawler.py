@@ -1,6 +1,7 @@
 import os
 import requests
 from dotenv import load_dotenv
+
 load_dotenv()
 
 API_KEY = os.environ.get("BRAPI_TOKEN")
@@ -13,11 +14,14 @@ def get_stock_data(stock_code):
 
         if "results" not in data or not data["results"]:
             print("Erro: 'results' ausente ou vazio na resposta da API.")
+            print("Resposta brapi:", response.text)
             return None
 
         result = data["results"][0]
-        eps = result.get("eps")
-        vpa = result.get("bookValue")
+
+        # Correção: usando campos reais da API
+        eps = result.get("earningsPerShare")
+        vpa = result.get("bookValue") or result.get("regularMarketBookValue")
         current_price = result.get("regularMarketPrice")
 
         if eps is None or vpa is None or current_price is None:
