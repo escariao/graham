@@ -6,12 +6,17 @@ def get_stock_data(stock_code):
         response = requests.get(url)
         data = response.json()
 
+        if "results" not in data or not data["results"]:
+            print("Erro: 'results' ausente ou vazio na resposta da API.")
+            return None
+
         result = data["results"][0]
         eps = result.get("eps")
         vpa = result.get("bookValue")
         current_price = result.get("regularMarketPrice")
 
         if eps is None or vpa is None or current_price is None:
+            print("Dados incompletos recebidos:", result)
             return None
 
         return {
