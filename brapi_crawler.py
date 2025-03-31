@@ -6,7 +6,7 @@ load_dotenv()
 API_KEY = os.environ.get("BRAPI_TOKEN")
 
 def get_stock_data(stock_code):
-    url = f"https://brapi.dev/api/quote/{stock_code.upper()}?range=1d&interval=1d"
+    url = f"https://brapi.dev/api/quote/{stock_code.upper()}?range=1d&interval=1d&token={API_KEY}"
     try:
         response = requests.get(url)
         data = response.json()
